@@ -1,9 +1,12 @@
 import { WALL_OFFSET_THICKNESS, WALL_STANDARD_HEIGHT } from "../core/constants";
 import { Dimensioning } from "../core/dimensioning";
 import { EVENT_CORNER_2D_CLICKED, EVENT_NOTHING_2D_SELECTED, EVENT_WALL_2D_CLICKED, EVENT_ROOM_2D_CLICKED } from "../core/events";
+import { InWallFloorItem } from "../items/in_wall_floor_item";
+import { Vector3 } from "three";
 
 export class FloorPlannerHelper {
-    constructor(floorplan, floorplanner) {
+    constructor(model, floorplan, floorplanner) {
+        this.__model = model;
         this.__floorplan = floorplan;
         this.__floorplanner = floorplanner;
 
@@ -78,6 +81,65 @@ export class FloorPlannerHelper {
         if (this.__selectedCorner) {
             this.__selectedCorner.remove();
             this.__resetSelections();
+        }
+    }
+
+    addDoorToWall(doorType) {
+        console.log('[addDoorToWall] selectedWall:', this.__selectedWall);
+        if (!this.__selectedWall) {
+            console.warn('[addDoorToWall] No wall selected');
+            return;
+        }
+
+        let wall = this.__selectedWall;
+        let wallEdge = wall.frontEdge;
+        if (!wallEdge) {
+            wallEdge = wall.backEdge;
+        }
+        console.log('[addDoorToWall] wallEdge:', wallEdge, 'frontEdge:', wall.frontEdge, 'backEdge:', wall.backEdge);
+        if (!wallEdge) {
+            console.warn('[addDoorToWall] No wall edge found');
+            return;
+        }
+
+        let center2D = wall.wallCenter();
+        let snapPoint = new Vector3(center2D.x, 0, center2D.y);
+
+        let itemMetaData = {
+            itemName: "Parametric Door",
+            isParametric: true,
+            baseParametricType: "DOOR",
+            subParametricData: {
+                type: doorType,
+                frameColor: "#E7E7E7",
+                doorColor: "#E7E7E7",
+                doorHandleColor: '#F0F0F0',
+                glassColor: '#87CEEB',
+                frameWidth: 100,
+                frameHeight: 200,
+                frameSize: 5,
+                frameThickness: 20,
+                doorRatio: 0.5,
+                openDirection: "RIGHT",
+                handleType: "HANDLE_01"
+            },
+            itemType: 7,
+            position: [0, 0, 0],
+            rotation: [0, 0, 0],
+            scale: [1, 1, 1],
+            size: [100, 200, 20],
+            fixed: false,
+            resizable: false,
+        };
+
+        console.log('[addDoorToWall] Creating item with doorType:', doorType);
+        try {
+            let item = new InWallFloorItem(itemMetaData, this.__model);
+            this.__model.addItem(item);
+            item.snapToWall(snapPoint, wall, wallEdge);
+            console.log('[addDoorToWall] Door added successfully!');
+        } catch (e) {
+            console.error('[addDoorToWall] Error:', e);
         }
     }
 

@@ -200,6 +200,15 @@ function addDoorForWall() {
     roomplanningHelper.addParametricDoorToCurrentWall(selectedDoor.type);
 }
 
+function addDoorForWall2D() {
+    console.log('[addDoorForWall2D] called');
+    let data = settingsSelectedWall.getValue('Select Door');
+    console.log('[addDoorForWall2D] data:', data);
+    let selectedDoor = doorsData[data.value];
+    console.log('[addDoorForWall2D] selectedDoor:', selectedDoor);
+    blueprint3d.addDoorToWall2D(selectedDoor.type);
+}
+
 function switchViewer() {
     blueprint3d.switchView();
     if (blueprint3d.currentView === 2) {
@@ -418,8 +427,8 @@ blueprint3d.roomplanner.addRoomplanListener(EVENT_ITEM_SELECTED, function(evt) {
         parametricContextInterface.destroy();
         parametricContextInterface = null;
     }
-    if (itemModel.isParametric) {
-        parametricContextInterface = new ParametricsInterface(itemModel.parametricClass, blueprint3d.roomplanner);
+        if (itemModel.isParametric) {
+            parametricContextInterface = new ParametricsInterface(itemModel.parametricClass, blueprint3d.roomplanner, 0, 0, sidebarWrapper);
     }
 });
 
@@ -504,6 +513,8 @@ if (!opts.widget) {
 
     settingsSelectedCorner.bindRange('cornerElevation', 1, 500, floorplanningHelper.cornerElevation, 1, floorplanningHelper);
     settingsSelectedWall.bindRange('wallThickness', 0.2, 1, floorplanningHelper.wallThickness, 0.01, floorplanningHelper);
+    settingsSelectedWall.addDropDown('Select Door', doorTypes, selectDoorForWall);
+    settingsSelectedWall.addButton('Add Door', addDoorForWall2D);
     settingsSelectedRoom.bindText('roomName', floorplanningHelper.roomName, floorplanningHelper);
 
     settingsSelectedRoom3D.addDropDown('Floor Textures', floor_texture_keys, selectFloorTexture);

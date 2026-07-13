@@ -5,6 +5,9 @@ export class ParametricsInterface {
         this.__parametricDataClass = parametricDataClass;
         this.__viewer3D = viewer3D;
         this.__settings = QuickSettings.create(x, y, `Parametric Item: ${parametricDataClass.name}`, appParent);
+        if (appParent) {
+            this.__settings._panel.classList.add('bs-panel');
+        }
         this.__constructUI();
     }
 
