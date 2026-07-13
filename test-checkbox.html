@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Copy of current main.css checkbox-relevant styles */
+        :root {
+            --bs-bg: rgba(16, 16, 22, 0.88);
+            --bs-bg-solid: #101016;
+            --bs-surface: rgba(255, 255, 255, 0.06);
+            --bs-border: rgba(255, 255, 255, 0.08);
+            --bs-text: #e0e0e6;
+            --bs-accent: #6c5ce7;
+            --bs-radius: 8px;
+            --bs-radius-sm: 5px;
+        }
+        div { margin: 0; padding: 0; }
+        body { background: #222; color: #fff; font-family: sans-serif; padding: 20px; }
+        .qs_main { background: var(--bs-bg-solid); border: 1px solid var(--bs-border); border-radius: var(--bs-radius); overflow: hidden; }
+        .qs_content { overflow-y: auto; }
+        .qs_container { background: var(--bs-surface); margin: 6px 8px; padding: 8px 10px; border: 1px solid var(--bs-border); border-radius: var(--bs-radius-sm); position: relative; }
+        .qs_checkbox_label { display: inline-block; font-weight: bold; margin-right: 5px; vertical-align: middle; }
+        .qs_checkbox { display: inline-block; vertical-align: middle; position: relative; }
+    </style>
+</head>
+<body>
+    <h3>Test: QuickSettings checkbox DOM</h3>
+    <div class="qs_main">
+        <div class="qs_content">
+            <div class="qs_container">
+                <label class="qs_checkbox_label">snapToGrid</label>
+                <label class="qs_checkbox">
+                    <input type="checkbox" checked>
+                    <span></span>
+                </label>
+            </div>
+            <div class="qs_container">
+                <label class="qs_checkbox_label">directionalDrag</label>
+                <label class="qs_checkbox">
+                    <input type="checkbox">
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
