@@ -161,10 +161,6 @@ div {
     scrollbar-color: rgba(255,255,255,0.12) transparent !important;
 }
 
-.bs-collapsed .qs_content {
-    display: none !important;
-}
-
 .qs_content::-webkit-scrollbar {
     width: 5px !important;
 }

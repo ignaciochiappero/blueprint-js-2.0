@@ -35,14 +35,30 @@ function createSidebarPanel(title) {
     panel.setPosition = function() {};
     panel.setWidth = function() {};
     panel.setHeight = function() {};
-    let titleBar = panel._titleBar;
+
+    let origTitleBar = panel._titleBar;
+    let freshTitleBar = origTitleBar.cloneNode(true);
+    origTitleBar.parentNode.replaceChild(freshTitleBar, origTitleBar);
+    panel._titleBar = freshTitleBar;
+
     let content = panel._content;
-    titleBar.addEventListener('click', function() {
-        let isCollapsed = panel._panel.classList.contains('bs-collapsed');
-        if (isCollapsed) {
-            panel._panel.classList.remove('bs-collapsed');
+    panel._hidden = false;
+    panel.show = function() {
+        panel._hidden = false;
+        panel._panel.classList.remove('bs-collapsed');
+        content.style.display = '';
+    };
+    panel.hide = function() {
+        panel._hidden = true;
+        panel._panel.classList.add('bs-collapsed');
+        content.style.display = 'none';
+    };
+    freshTitleBar.addEventListener('click', function(e) {
+        e.stopImmediatePropagation();
+        if (content.style.display === 'none') {
+            panel.show();
         } else {
-            panel._panel.classList.add('bs-collapsed');
+            panel.hide();
         }
     });
     return panel;
