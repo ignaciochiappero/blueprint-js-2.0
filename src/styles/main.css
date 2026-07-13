@@ -1,0 +1,526 @@
+html {
+    overflow: hidden;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* #bp3d-js-app {
+    overflow: hidden;
+} */
+
+#bp3djs-viewer2d,
+#bp3djs-viewer3d {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#bp3djs-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/**
+    Modern sidebar styling for QuickSettings
+*/
+
+/* ── Color tokens ── */
+:root {
+    --bs-bg: rgba(16, 16, 22, 0.88);
+    --bs-bg-solid: #101016;
+    --bs-surface: rgba(255, 255, 255, 0.06);
+    --bs-surface-hover: rgba(255, 255, 255, 0.10);
+    --bs-border: rgba(255, 255, 255, 0.08);
+    --bs-border-focus: rgba(108, 92, 231, 0.6);
+    --bs-text: #e0e0e6;
+    --bs-text-muted: #8888a0;
+    --bs-accent: #6c5ce7;
+    --bs-accent-glow: rgba(108, 92, 231, 0.35);
+    --bs-radius: 8px;
+    --bs-radius-sm: 5px;
+    --bs-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Sidebar wrapper ── */
+#bp3d-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 220px;
+    height: 100vh;
+    z-index: 100;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.12) transparent;
+}
+
+#bp3d-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+#bp3d-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#bp3d-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+}
+
+/* ── Panel base ── */
+.qs_main {
+    background: var(--bs-bg-solid) !important;
+    border: 1px solid var(--bs-border) !important;
+    border-radius: var(--bs-radius) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    overflow: hidden !important;
+    color: var(--bs-text) !important;
+    position: static !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+}
+
+/* ── Title bar ── */
+.qs_title_bar {
+    background: linear-gradient(135deg, var(--bs-accent), #a855f7) !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    padding: 10px 12px !important;
+    border: none !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    transition: opacity var(--bs-transition) !important;
+}
+
+.qs_title_bar:hover {
+    opacity: 0.92 !important;
+}
+
+/* Accordion collapsed state */
+.bs-collapsed .qs_title_bar {
+    border-radius: var(--bs-radius) !important;
+}
+
+.bs-collapsed .qs_title_bar::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(255,255,255,0.7);
+    margin-left: 8px;
+    vertical-align: middle;
+    transition: transform var(--bs-transition);
+}
+
+.qs_title_bar::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid rgba(255,255,255,0.7);
+    margin-left: 8px;
+    vertical-align: middle;
+    transition: transform var(--bs-transition);
+}
+
+/* ── Content area ── */
+.qs_content {
+    background: transparent !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(255,255,255,0.12) transparent !important;
+}
+
+.bs-collapsed .qs_content {
+    display: none !important;
+}
+
+.qs_content::-webkit-scrollbar {
+    width: 5px !important;
+}
+
+.qs_content::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+.qs_content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-radius: 3px !important;
+}
+
+/* ── Control containers ── */
+.qs_container {
+    background: var(--bs-surface) !important;
+    margin: 6px 8px !important;
+    padding: 8px 10px !important;
+    border: 1px solid var(--bs-border) !important;
+    border-radius: var(--bs-radius-sm) !important;
+    position: relative !important;
+    transition: background var(--bs-transition) !important;
+}
+
+.qs_container:hover {
+    background: var(--bs-surface-hover) !important;
+}
+
+.qs_container_selected {
+    border-color: var(--bs-border-focus) !important;
+    background: rgba(108, 92, 231, 0.08) !important;
+}
+
+/* ── Labels ── */
+.qs_label {
+    color: var(--bs-text-muted) !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 4px !important;
+    display: block !important;
+}
+
+/* ── Buttons ── */
+.qs_button {
+    background: var(--bs-surface) !important;
+    color: var(--bs-text) !important;
+    border: 1px solid var(--bs-border) !important;
+    border-radius: var(--bs-radius-sm) !important;
+    padding: 7px 14px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all var(--bs-transition) !important;
+    width: 100% !important;
+    font-family: inherit !important;
+}
+
+.qs_button:hover {
+    background: var(--bs-accent) !important;
+    border-color: var(--bs-accent) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 12px var(--bs-accent-glow) !important;
+}
+
+.qs_button:active {
+    transform: scale(0.97) !important;
+}
+
+.qs_button:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px var(--bs-accent-glow) !important;
+}
+
+/* ── Range sliders ── */
+.qs_range {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    width: 100% !important;
+    height: 6px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 3px !important;
+    outline: none !important;
+    margin: 6px 0 !important;
+    border: none !important;
+}
+
+.qs_range::-webkit-slider-runnable-track {
+    width: 100% !important;
+    height: 6px !important;
+    cursor: pointer !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 3px !important;
+}
+
+.qs_range::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    height: 16px !important;
+    width: 16px !important;
+    border-radius: 50% !important;
+    background: var(--bs-accent) !important;
+    cursor: pointer !important;
+    margin-top: -5px !important;
+    box-shadow: 0 1px 6px var(--bs-accent-glow) !important;
+    transition: transform var(--bs-transition), box-shadow var(--bs-transition) !important;
+}
+
+.qs_range::-webkit-slider-thumb:hover {
+    transform: scale(1.2) !important;
+    box-shadow: 0 2px 12px var(--bs-accent-glow) !important;
+}
+
+.qs_range::-moz-range-track {
+    width: 100% !important;
+    height: 6px !important;
+    cursor: pointer !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 3px !important;
+    border: none !important;
+}
+
+.qs_range::-moz-range-thumb {
+    height: 16px !important;
+    width: 16px !important;
+    border-radius: 50% !important;
+    background: var(--bs-accent) !important;
+    cursor: pointer !important;
+    border: none !important;
+    box-shadow: 0 1px 6px var(--bs-accent-glow) !important;
+}
+
+.qs_range:focus::-webkit-slider-runnable-track {
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.qs_range:focus::-moz-range-track {
+    background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ── Text inputs ── */
+.qs_text_input {
+    background: rgba(0, 0, 0, 0.25) !important;
+    color: var(--bs-text) !important;
+    border: 1px solid var(--bs-border) !important;
+    border-radius: var(--bs-radius-sm) !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    font-family: inherit !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    transition: border-color var(--bs-transition), box-shadow var(--bs-transition) !important;
+}
+
+.qs_text_input:focus {
+    outline: none !important;
+    border-color: var(--bs-accent) !important;
+    box-shadow: 0 0 0 2px var(--bs-accent-glow) !important;
+}
+
+.qs_number {
+    -moz-appearance: textfield !important;
+}
+
+/* ── Dropdowns ── */
+.qs_select {
+    background: rgba(0, 0, 0, 0.25) !important;
+    color: var(--bs-text) !important;
+    border: 1px solid var(--bs-border) !important;
+    border-radius: var(--bs-radius-sm) !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    font-family: inherit !important;
+    width: 100% !important;
+    cursor: pointer !important;
+    transition: border-color var(--bs-transition) !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238888a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 10px center !important;
+    padding-right: 28px !important;
+}
+
+.qs_select:hover {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.qs_select:focus {
+    outline: none !important;
+    border-color: var(--bs-accent) !important;
+    box-shadow: 0 0 0 2px var(--bs-accent-glow) !important;
+}
+
+.qs_select option {
+    background: var(--bs-bg-solid) !important;
+    color: var(--bs-text) !important;
+    padding: 6px !important;
+}
+
+/* ── Checkboxes ── */
+.qs_checkbox {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+}
+
+.qs_checkbox input[type="checkbox"] {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    width: 16px !important;
+    height: 16px !important;
+    border: 1.5px solid var(--bs-border) !important;
+    border-radius: 4px !important;
+    background: rgba(0, 0, 0, 0.25) !important;
+    cursor: pointer !important;
+    position: relative !important;
+    transition: all var(--bs-transition) !important;
+    flex-shrink: 0 !important;
+}
+
+.qs_checkbox input[type="checkbox"]:checked {
+    background: var(--bs-accent) !important;
+    border-color: var(--bs-accent) !important;
+}
+
+.qs_checkbox input[type="checkbox"]:checked::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 4px !important;
+    top: 1px !important;
+    width: 5px !important;
+    height: 9px !important;
+    border: solid #fff !important;
+    border-width: 0 2px 2px 0 !important;
+    transform: rotate(45deg) !important;
+}
+
+.qs_checkbox input[type="checkbox"]:hover {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.qs_checkbox_label {
+    color: var(--bs-text) !important;
+    font-size: 12px !important;
+    cursor: pointer !important;
+}
+
+.qs_checkbox span {
+    color: var(--bs-text) !important;
+    font-size: 12px !important;
+}
+
+.qs_checkbox input:checked + span {
+    color: var(--bs-accent) !important;
+}
+
+/* ── Color picker ── */
+.qs_color {
+    position: absolute !important;
+    left: 5px !important;
+    visibility: hidden !important;
+}
+
+.qs_color_label {
+    width: 100% !important;
+    height: 28px !important;
+    border-radius: var(--bs-radius-sm) !important;
+    border: 1px solid var(--bs-border) !important;
+    cursor: pointer !important;
+    transition: border-color var(--bs-transition) !important;
+    display: block !important;
+}
+
+.qs_color_label:hover {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ── Images ── */
+.qs_image {
+    max-width: 100% !important;
+    border-radius: var(--bs-radius-sm) !important;
+    border: 1px solid var(--bs-border) !important;
+    display: block !important;
+    margin: 4px auto !important;
+}
+
+/* ── File chooser ── */
+.qs_file_chooser {
+    display: none !important;
+}
+
+.qs_file_chooser_label {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    background: var(--bs-surface) !important;
+    color: var(--bs-text) !important;
+    border: 1px dashed rgba(255, 255, 255, 0.15) !important;
+    border-radius: var(--bs-radius-sm) !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    cursor: pointer !important;
+    transition: all var(--bs-transition) !important;
+    text-align: center !important;
+}
+
+.qs_file_chooser_label:hover {
+    background: var(--bs-surface-hover) !important;
+    border-color: var(--bs-accent) !important;
+    color: var(--bs-accent) !important;
+}
+
+/* ── Textarea ── */
+.qs_textarea {
+    background: rgba(0, 0, 0, 0.25) !important;
+    color: var(--bs-text) !important;
+    border: 1px solid var(--bs-border) !important;
+    border-radius: var(--bs-radius-sm) !important;
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+    font-family: inherit !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    resize: vertical !important;
+    transition: border-color var(--bs-transition) !important;
+}
+
+.qs_textarea:focus {
+    outline: none !important;
+    border-color: var(--bs-accent) !important;
+    box-shadow: 0 0 0 2px var(--bs-accent-glow) !important;
+}
+
+/* ── Progress bar ── */
+.qs_progress {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+    height: 12px !important;
+}
+
+.qs_progress_value {
+    background: linear-gradient(90deg, var(--bs-accent), #a855f7) !important;
+    height: 100% !important;
+    border-radius: 4px !important;
+    transition: width var(--bs-transition) !important;
+}
+
+/* ── Viewer 3D measurement labels ── */
+.viewer3d-measurement-labels {
+    color: #FFF;
+    font-family: sans-serif;
+    padding: 2px;
+    background: rgba(0, 0, 0, .6);
+}
